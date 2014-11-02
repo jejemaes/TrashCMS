@@ -1,0 +1,9 @@
+{
+	"name" : "user",
+	"display_name" : "User",
+	"routes" : [],
+	"sequence" : 1,
+	"menu_items" : [],
+	"installable" : true,
+	"dependencies" : []
+}
