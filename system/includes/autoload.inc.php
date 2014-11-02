@@ -10,6 +10,8 @@ function interfaceLoader($iname){
 	$filename = $iname . '.php';
 	$file = _DIR_INTERFACE . $filename;
 	if (!file_exists($file)){
+		global $Logger;
+		//$Logger->debug("Interface " . $iname . " not loaded !");
 		return false;
 	}
 	include $file;
@@ -25,6 +27,8 @@ function helperLoader($name){
 	$filename = $name . '.class.php';
 	$file = _DIR_HELPER . $filename;
 	if (!file_exists($file)){
+		global $Logger;
+		//$Logger->debug("Helper " . $name . " not loaded !");
 		return false;
 	}
 	include $file;
@@ -41,6 +45,8 @@ function exceptionLoader($name){
 	$filename = $name . '.class.php';
 	$file = _DIR_EXCEPTION . $filename;
 	if (!file_exists($file)){
+		global $Logger;
+		//$Logger->debug("Exception " . $name . " not loaded !");
 		return false;
 	}
 	include $file;
@@ -49,13 +55,17 @@ function exceptionLoader($name){
 /**
  * Autoloader for internal libraries (sys lib)
  * It will automatically load the class php file when an unknown class is used
- * @param string $iname : the name of the called class
+ * @param string $name : the name of the called class
  * @return boolean
  */
-function systemLoader($name){
-	$filename = $name . '.class.php';
-	$file = _DIR_LIB_SYS . $filename;
+
+function systemLoader($class_name){
+	$directories = explode("\\", $class_name);
+	$root = implode($directories, DIRECTORY_SEPARATOR);
+	$file = __SITE_PATH . $root . '.class.php';
+	global $Logger;
 	if (!file_exists($file)){
+		//$Logger->debug("Filesys " . $file . " not found !");
 		return false;
 	}
 	include $file;

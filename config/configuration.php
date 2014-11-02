@@ -7,7 +7,7 @@ define('DEBUG_MODE', E_ALL);
 define('TIMEZONE','Europe/Paris');
 
 // Database parameters
-define('DB_LOGIN','trashman');
+define('DB_LOGIN','trashcms');
 define('DB_PASS','trashcms');
 define('DB_HOST','localhost');
-define('DB_NAME','trashcms-dev');
+define('DB_NAME','trashcms');
