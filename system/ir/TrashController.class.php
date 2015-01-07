@@ -7,8 +7,16 @@
 
 
 namespace system\ir;
+use system\ir\Request as Request;
+
 
 abstract class TrashController{
+	
+	public $request;
+	
+	public function __construct(Request $request) {
+		$this->request = $request;
+	}
 	
 	/**
 	 * catch the static call for undefined method

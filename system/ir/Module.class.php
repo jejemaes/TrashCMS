@@ -21,12 +21,7 @@ class Module extends TrashModel{
 			'is_installed',	// boolean
 			'menu_items', 	// json
 	);
-	
-	static $has_many = array(
-			array('system\ir\Route'),
-	);
-	
-	
+		
 	
 	/**
 	 * get the list of all the modules

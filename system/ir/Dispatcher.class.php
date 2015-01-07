@@ -11,6 +11,8 @@
  */
 
 namespace system\ir;
+use system\ir\Route as Route;
+
 
 class Dispatcher{
 	
@@ -40,11 +42,7 @@ class Dispatcher{
 		$this->router = new \AltoRouter();
 		$this->router->setBasePath($baseUrl);
 	}
-	
-	
-	public function match(){
-		return $this->router->match();
-	}
+
 	
 	
 	/**
@@ -56,17 +54,63 @@ class Dispatcher{
 		foreach ($routes as $r){
 			$this->router->map($r->method, $r->path, array('controller' => $r->controller, 'action' => $r->action), $r->name);
 		}
-		// match current request
-		$match = $this->router->match();
-		return $match;
+		return $this->match();
 	}
 	
 	
-	public function generate($name){
+	/**
+	 * find the match route of the request
+	 * @return system\ir\Route object containing the informations of the matched route. NULL otherwise.
+	 */
+	public function match(){
+		// match current request
+		$match = $this->router->match();
+		var_dump($match);
+		if($match){
+			return new Route($match);
+		}
+		return NULL;
+	}
+	
+	/**
+	 * add a route to the routing mapping
+	 * @param string $method : GET, POST, GET|POST
+	 * @param string $path : the path of the query
+	 * @param string $controllerMethod : key array where
+	 * 				'controller' => complete class name (with namespace)
+	 * 				'action' =>  name of the method to call on the controller
+	 * @param string $name : the name of the route
+	 */
+	public function map($method, $path, $controllerMethod, $name){
+		global $Logger;
+		$Logger->debug("Add route " . $name . " to routing map :  " . $controllerMethod['controller'] . "->" . $controllerMethod['action']);
+		$this->router->map($method, $path, $controllerMethod, $name);
+	}
+	
+	public function dispatch(){
+		global $request;
+		$route = $this->match();
+		if($route){
+			$controller_class = sprintf('\module\%s\controller\%s', $route->module,  $route->controller);
+			$action = $route->action;
+			$controller = new $controller_class($request);
+			call_user_func_array(array($controller, $action), $route->params);
+		}else{
+			$this->_handle_exception();
+		}
+	}
+	
+	
+	public function generate_route($name){
 		return $this->router->generate($name);
 	}
 	
 	public function getRouter(){
 		return $this->router;
+	}
+	
+	private function _handle_exception(){
+		//TODO
+		echo 'ERROR DISPATCHER : route not found or else';
 	}
 }

@@ -6,7 +6,7 @@
  */
 
 
-class MinifyHelper extends DefaultHelper{
+class MinifyHelper{
 	
 	public function __construct() {
         

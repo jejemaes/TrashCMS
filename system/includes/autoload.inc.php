@@ -7,7 +7,7 @@
  * @return boolean
  */
 function interfaceLoader($iname){
-	$filename = $iname . '.php';
+	$filename = $iname . 'class.php';
 	$file = _DIR_INTERFACE . $filename;
 	if (!file_exists($file)){
 		global $Logger;
@@ -65,7 +65,7 @@ function systemLoader($class_name){
 	$file = __SITE_PATH . $root . '.class.php';
 	global $Logger;
 	if (!file_exists($file)){
-		//$Logger->debug("Filesys " . $file . " not found !");
+		$Logger->debug("Filesys " . $file . " not found !");
 		return false;
 	}
 	include $file;

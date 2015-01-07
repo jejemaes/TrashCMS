@@ -5,16 +5,18 @@
  *
  */
 
-
 namespace module\base\controller;
 use system\ir\TrashController as TrashController;
 
-
 class BaseController extends TrashController{
 		
-	public static function indexAction($id){
-		global $request;
-		$request->render('base.test1');
+	public function indexAction(){
+		echo '<hr>indexACtion';
+		$this->request->render('base.test3');
+	}
+	
+	public static function testAction($id){
+		$this->request->render('base.test3');
 	}
 	
 }

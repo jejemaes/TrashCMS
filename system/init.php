@@ -31,7 +31,7 @@ $Logger = system\ir\Logger::getInstance(system\ir\Logger::LOG_DEBUG);
 require_once _DIR_LIB . 'PhpActiveRecord/ActiveRecord.php';
 ActiveRecord\Config::initialize(function($cfg){
 	//$cfg->set_model_directory(dirname(__FILE__) . '/models');
-	$cfg->set_connections(array('production' => 'mysql://'.DB_LOGIN.':'.DB_PASS.'@'.DB_HOST.'/'.DB_NAME));
+	$cfg->set_connections(array('production' => 'mysql://'.DB_LOGIN.':'.DB_PASS.'@'.DB_HOST.'/'.DB_NAME . '?charset=utf8'));
 	// you can change the default connection with the below
 	$cfg->set_default_connection('production');
 	$cfg->set_model_directory(_DIR_LIB);
@@ -44,17 +44,26 @@ $Logger->debug("Start the Routing ============================================="
 use system\ir\Route as Route;
 use system\ir\Dispatcher as Dispatcher;
 use system\ir\Request as Request;
-use system\ir\Module;
+use system\ir\Module as Module;
+use system\ir\ModuleLoader as ModuleLoader;
+
 
 global $match;
 global $request;
+global $dispatcher;
 
-$routes = Route::get_active_routes();
 $dispatcher = Dispatcher::getInstance(__BASE_PATH_URL);
-
-$match = $dispatcher->route($routes);
 $request = new Request();
 
+// load all installed modules
+$modules_list = Module::findInstalled();
+ModuleLoader::loadModules($modules_list);
+
+
+$dispatcher->dispatch();
+exit();
+
+var_dump($match);
 
 /*
 class TestController{
@@ -105,3 +114,5 @@ if ($match){
 
 
 $Logger->debug("End the Routing =============================================");
+
+exit();

@@ -2,7 +2,17 @@
 /**
  * Maes Jerome
  * TrashView.class.php, created at Oct 27, 2014
- *
+ * A view is an object building a UI, mostly based on XML. There is various type :
+ * 			- Form : describing the form view of a record. Ex : <form name="myform"><group></group></form>
+ * 			- Tree : describing the list view of a model (records)
+ *  		- Template : template rendering anything (a web page, ....). Here, we use QWeb template.
+ * A view can be of 2 modes :
+ * 		- if extension (default), if this view is requested the closest primary view is looked up (via inherit_id), then all 
+ * 		  views inheriting from it with this view's model are applied.
+ * 		- if primary, the closest primary view is fully resolved (even if it uses a different model than this one), then 
+ * 		  this view's inheritance specs (<xpath/>) are applied, and the result is used as if it were this view's actual arch.
+ * The extention mode extends the view, and the primary mode inherit other views.
+ * 
  */
 
 /**
@@ -35,6 +45,9 @@ class TrashView extends TrashModel{
 			'inherit_xml_id',	// TODO : remove!! // xml_id of the inherited view
 			'parent_id',	// integer, id of the inherited view
 			'sequence',		// integer, sequence order to render inherited views
+			// TODO
+			// 'mode', // primary, extension
+			// 'type', // form, tree, template
 			'depends',		// ???? TODO json : list of the xml_id requiered for this view ['module.view1', 'module.view2']
 	);
 	
@@ -54,7 +67,7 @@ class TrashView extends TrashModel{
 	 */
 	public static function get_view($xmlid){
 		$views = static::all(array(
-				'joins' => 'LEFT JOIN system_module M ON(system_view.module_id = M.id)',
+				//'joins' => 'LEFT JOIN system_module M ON(system_view.module_id = M.id)',
 				'conditions' => array('system_view.xml_id = ?', $xmlid)
 		));
 		
@@ -77,12 +90,13 @@ class TrashView extends TrashModel{
 	
 	
 	public static function apply_view_inheritance($xmlid){
+		echo $xmlid;
+		echo "===========================<br>";
 		$base_view = static::get_view($xmlid);
 		$inherited_views = static::get_inherited_view($base_view->id);
 		
 		$base_arch_dom = new DOMDocument;
 		$base_arch_dom->loadHTML($base_view->web_arch);
-		
 		
 		foreach ($inherited_views as $view){
 			
@@ -138,8 +152,11 @@ class TrashView extends TrashModel{
 				}
 			
 			}
-			return $base_arch_dom->saveHTML();
 		}
+		var_dump($base_arch_dom->saveHTML());
+		echo "<br>...................................<br>";
+		echo "...................................<br>";
+		return $base_arch_dom->saveHTML();
 		
 	}
 	

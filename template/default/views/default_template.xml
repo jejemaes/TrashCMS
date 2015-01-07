@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<template id="website.layout" active="True">
+		<!DOCTYPE html>
+		<html>
+		    <head>
+		        {% block head %}
+		            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+		            <title>{% block title %}{% endblock %} - My Webpage</title>
+		        {% endblock %}
+		    </head>
+		    <body>
+		        <div id="content">{% block content %}{% endblock %}</div>
+		        <div id="footer">
+		            {% block footer %}
+		                &copy; Copyright 2011 by <a href="http://domain.invalid/">you</a>.
+		            {% endblock %}
+		        </div>
+		    </body>
+		</html>
+	</template>
+
+
+</data>
