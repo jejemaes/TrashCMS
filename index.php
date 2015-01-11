@@ -1,11 +1,11 @@
 <?php
 
-
 include 'config/configuration.php';
 
 date_default_timezone_set(TIMEZONE);
 error_reporting(DEBUG_MODE);
 
+//libxml_use_internal_errors(false);
 
 //######## define the site path and the base url constant ######
 $site_path = realpath(dirname(__FILE__));

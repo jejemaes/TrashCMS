@@ -17,9 +17,9 @@ class Module extends TrashModel{
 			'name', 		// string, name of the module
 			'display_name', // string, displayed name of the module for the UI
 			'location', 	// string, dir path of the module
-			'sequence',		// 
 			'is_installed',	// boolean
 			'menu_items', 	// json
+			'dependencies', // json
 	);
 		
 	

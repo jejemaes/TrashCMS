@@ -61,9 +61,7 @@ ModuleLoader::loadModules($modules_list);
 
 
 $dispatcher->dispatch();
-exit();
 
-var_dump($match);
 
 /*
 class TestController{
@@ -98,6 +96,7 @@ echo '<br><br><br>';
 echo '<hr>';
 */
 
+/*
 if ($match){
 	$route = __($routes)->filter(function($r) {global $match; return $r->name == $match['name']; });
 	$route = __($route)->first();
@@ -111,8 +110,7 @@ if ($match){
 	}
 }
 
-
+*/
 
 $Logger->debug("End the Routing =============================================");
 
-exit();

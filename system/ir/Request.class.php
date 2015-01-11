@@ -119,7 +119,6 @@ class Request{
 		
 		
 		$this->_is_website = $is_website;
-		//$this->_template_engine = new TemplateEngineHelper();
 	}
 	
 	
@@ -136,7 +135,7 @@ class Request{
 		}
 		// TODO render values on $views
 		
-		$view = $this->_template_engine->render($view_name, $values);
+		$view = TrashView::render($view_name, $values);
 		
 		$this->make_response($view, 'text/html');
 	}
@@ -144,13 +143,13 @@ class Request{
 	
 	/**
 	 * make response
-	 * @param array $values : key-array
+	 * @param  $values : 
 	 * @param string $header : type of the response (text/html, ....)
 	 */
-	public function make_response($values, $header="text/html"){
+	public function make_response($value, $header="text/html"){
 		if($header == "text/html"){
-			header('Content-type: text/html; charset=utf-8');
-			echo $values;
+			//header('Content-type: text/html; charset=utf-8');
+			echo $value;
 		}
 	}
 	

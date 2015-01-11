@@ -1,8 +1,6 @@
 {
-	"name" : "user",
-	"display_name" : "User",
-	"routes" : [],
-	"sequence" : 1,
+	"name" : "base",
+	"display_name" : "Base",
 	"menu_items" : [],
 	"installable" : true,
 	"dependencies" : []

@@ -27,6 +27,8 @@
 
 namespace system\ir;
 use system\ir\TrashModel as TrashModel;
+use system\helpers\TemplateEngineHelper as TemplateEngineHelper;
+use system\helpers\TemplateLoaderHelper as TemplateLoaderHelper;
 
 use \DOMDocument as DOMDocument;
 use \DOMXPath as DOMXPath;
@@ -41,14 +43,12 @@ class TrashView extends TrashModel{
 			'xml_id', 		// string, unique name of the view (xml id template tag) : 'module.viewName'
 			'name', 		// string displayed to Users
 			'web_arch', 	// text, the content of the template (website version)
-			'mobile_arch',	// idem but for mobile
-			'inherit_xml_id',	// TODO : remove!! // xml_id of the inherited view
 			'parent_id',	// integer, id of the inherited view
 			'sequence',		// integer, sequence order to render inherited views
 			// TODO
 			// 'mode', // primary, extension
-			// 'type', // form, tree, template
-			'depends',		// ???? TODO json : list of the xml_id requiered for this view ['module.view1', 'module.view2']
+			'type', 		// should be : form, tree, template
+			'active'		// boolean
 	);
 	
 	static $belongs_to = array(
@@ -59,6 +59,20 @@ class TrashView extends TrashModel{
 	);
 	
 	
+	public static function create($attributes, $validate=true){
+		// TODO : set type according to parent_id = false ?
+		parent::create($attributes, $validate);
+	}
+	
+	
+	
+	public static function render($xmlid, $values){
+		$loader = new TemplateLoaderHelper();
+		$engine = new TemplateEngineHelper($loader);
+		return $engine->render($xmlid, $values);
+	}
+	
+	
 	
 	/**
 	 * get the view correspondng to the given xml_id
@@ -67,15 +81,13 @@ class TrashView extends TrashModel{
 	 */
 	public static function get_view($xmlid){
 		$views = static::all(array(
-				//'joins' => 'LEFT JOIN system_module M ON(system_view.module_id = M.id)',
 				'conditions' => array('system_view.xml_id = ?', $xmlid)
 		));
 		
 		if (count($views) > 0){
 			return $views[0];
 		}
-		// TODO throw exception
-		return "cacaView"; 
+		throw new ObjectNotFoundException('ThrashView', $xmlid);
 	}
 	
 	/**
@@ -84,27 +96,26 @@ class TrashView extends TrashModel{
 	 * @return Ambigous <\ActiveRecord\mixed, NULL, unknown, \ActiveRecord\Model, multitype:>
 	 */
 	public static function get_inherited_view($view_id){
-		return static::find('all', array('conditions' => array('parent_id = ?', $view_id), 'order' => 'sequence desc'));
+		return static::find('all', array('conditions' => array('parent_id = ? AND active = ?', $view_id, '1'), 'order' => 'sequence desc'));
 	}
 	
 	
-	
-	public static function apply_view_inheritance($xmlid){
-		echo $xmlid;
-		echo "===========================<br>";
+	/**
+	 * get the arch field of the given view xmlid, after the inheritances were applied.
+	 * It return a string (code) of thebase view extended by its children
+	 * @param string $xmlid : the base xmlid 
+	 * @return string : the inherited view arch
+	 */
+	public static function apply_inheritance_arch($xmlid){
 		$base_view = static::get_view($xmlid);
 		$inherited_views = static::get_inherited_view($base_view->id);
 		
-		$base_arch_dom = new DOMDocument;
-		$base_arch_dom->loadHTML($base_view->web_arch);
+		$base_arch_dom = new DOMDocument();
+		$base_arch_dom->loadXML($base_view->web_arch, LIBXML_NOWARNING);
 		
 		foreach ($inherited_views as $view){
-			
-			// TODO remove
-			libxml_use_internal_errors(false);
-			
 			$view_arch_dom = new DOMDocument;
-			$view_arch_dom->loadXML($view->web_arch);
+			$view_arch_dom->loadXML($view->web_arch, LIBXML_NOWARNING);
 			
 			$elements = $view_arch_dom->getElementsByTagName("xpath");
 			foreach ($elements as $xpath_element) {
@@ -122,7 +133,6 @@ class TrashView extends TrashModel{
 						foreach($xpath_element->childNodes as $child){
 							$nodes[] = $base_arch_dom->importNode($child, true);
 						}
-						
 						// place correctly the new nodes into the base architecture DOM
 						if($position == 'inside'){
 							foreach ($nodes as $n) {
@@ -143,23 +153,18 @@ class TrashView extends TrashModel{
 						if($position == 'after'){
 							// TODO
 						}
-						
 					}else{
 		    			// no elem found, wrong xpath expr
 		    		}
 				}else{
 					// TODO : not tag expr
 				}
-			
 			}
 		}
-		var_dump($base_arch_dom->saveHTML());
-		echo "<br>...................................<br>";
-		echo "...................................<br>";
-		return $base_arch_dom->saveHTML();
-		
+		//echo htmlspecialchars($base_arch_dom->saveXML());
+		//var_dump($base_arch_dom);
+		return $base_arch_dom->saveXML();		
 	}
-	
-	
+
 	
 }

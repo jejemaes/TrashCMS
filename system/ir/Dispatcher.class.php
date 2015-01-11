@@ -65,7 +65,6 @@ class Dispatcher{
 	public function match(){
 		// match current request
 		$match = $this->router->match();
-		var_dump($match);
 		if($match){
 			return new Route($match);
 		}

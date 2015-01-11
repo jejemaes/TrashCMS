@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<xpath expr="//div[@class='jumbotron']" position="inside">
+		<span class="badge">inside jumbotron</span><span class="badge">inside jumbotron</span>
+		<ul name="style">
+			<t t-foreach="$styles" t-as="$style">
+            	<li><t t-esc="$style"/></li>
+            </t>
+        </ul>
+	</xpath>
+		
+	<xpath expr="//div[@id='sidebar']" position="before">
+		<div class="col-xs-6 col-lg-4">
+			<div style="background-color:blue;"><span class="badge">CACA replace TEST</span></div>
+		</div>
+	</xpath>
+
+</data>

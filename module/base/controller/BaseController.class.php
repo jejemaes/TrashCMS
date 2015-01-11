@@ -11,8 +11,8 @@ use system\ir\TrashController as TrashController;
 class BaseController extends TrashController{
 		
 	public function indexAction(){
-		echo '<hr>indexACtion';
-		$this->request->render('base.test3');
+		$styles = array('un' , 'deux', 'trois');
+		$this->request->render('base.test1', array('caca' => (1 == 1), 'is_class' => FALSE, 'styles' => $styles));
 	}
 	
 	public static function testAction($id){
