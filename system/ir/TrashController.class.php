@@ -13,9 +13,11 @@ use system\ir\Request as Request;
 abstract class TrashController{
 	
 	public $request;
+	public $pool;
 	
 	public function __construct(Request $request) {
 		$this->request = $request;
+		$this->pool = Registry::getInstance();
 	}
 	
 	/**

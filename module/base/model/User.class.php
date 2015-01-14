@@ -5,7 +5,8 @@
  *
  */
 
-
+namespace module\base\model;
+use system\ir\TrashModel as TrashModel;
 
 class User extends TrashModel{
 	
@@ -22,5 +23,5 @@ class User extends TrashModel{
 		'descr' => array('label'=> 'Descr', 'type' => 'text'),
 	);
 	
+	
 }
-

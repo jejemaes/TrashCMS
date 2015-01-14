@@ -58,7 +58,6 @@ function exceptionLoader($name){
  * @param string $name : the name of the called class
  * @return boolean
  */
-
 function systemLoader($class_name){
 	$directories = explode("\\", $class_name);
 	$root = implode($directories, DIRECTORY_SEPARATOR);

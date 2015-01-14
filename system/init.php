@@ -63,54 +63,5 @@ ModuleLoader::loadModules($modules_list);
 $dispatcher->dispatch();
 
 
-/*
-class TestController{
-	public static function indexAction(){
-		echo "indexAction !!!! <hr> ";
-	}
-	
-	public static function testAction(){
-		echo "indexAction !!!! <hr> ";
-	}
-
-	public static function users_create($id){
-		echo "zzzzzz : ".$id;
-	}
-}
-
-
-for ($i = 0; $i <= count($rous); $i++) {
-    $t = $rous[$i];
-   
-    try {
-    	echo '<br>' . $t->name;
-	    echo '<br>' . $t->system_module->location;
-	    echo '<hr>';
-    } catch (Exception $e) {
-    	echo 'Exception reue : ',  $e->getMessage(), "\n";
-    }
-} 
-echo '<br><br><br>';
-
-
-echo '<hr>';
-*/
-
-/*
-if ($match){
-	$route = __($routes)->filter(function($r) {global $match; return $r->name == $match['name']; });
-	$route = __($route)->first();
-	
-	if($route){ // execute the controller action
-		$fct = "\module\\" . $route->system_module->name . "\controller\\" . $route->controller . "::" . $route->action;
-		$returnValue = call_user_func_array($fct, $match['params']);
-		if($returnValue){
-			// TODO Do something : detect type (html or json) an treat it with request->make_response()
-		}
-	}
-}
-
-*/
-
 $Logger->debug("End the Routing =============================================");
 

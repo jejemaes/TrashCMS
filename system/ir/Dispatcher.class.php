@@ -82,6 +82,8 @@ class Dispatcher{
 	 */
 	public function map($method, $path, $controllerMethod, $name){
 		global $Logger;
+		// TODO : since the modules will be load in a correct order (depending on their dependencies), a controller
+		// can override a route, so, here, if a route already exists, jsute override it with the new controller
 		$Logger->debug("Add route " . $name . " to routing map :  " . $controllerMethod['controller'] . "->" . $controllerMethod['action']);
 		$this->router->map($method, $path, $controllerMethod, $name);
 	}

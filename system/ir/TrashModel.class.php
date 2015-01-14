@@ -27,6 +27,7 @@ namespace system\ir;
 
 class TrashModel extends \ActiveRecord\Model{
 		
+	public static $pool;
 	
 
 }

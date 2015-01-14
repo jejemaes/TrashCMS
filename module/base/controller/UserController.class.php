@@ -8,17 +8,16 @@
 
 namespace module\base\controller;
 use system\ir\TrashController as TrashController;
-
+use module\base\model\User as User;
 
 class UserController extends TrashController{
-
 	
 	/**
 	 * @route : /user/[i:id]
 	 * @param int $id : the user id
 	 */
-	public static function userAction($id){
-		echo "User Profil Action";
+	public function userAction($id){
+		echo "User Profil Action" . $id;
 	}
 
 }
