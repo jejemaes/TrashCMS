@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<bundle id="web.assets_common" name="Web Base Assets">
+		<!-- CSS -->
+		<link rel="stylesheet" href="/web/assets/lib/bootstrap/css/bootstrap.css"/>
+		
+		<script type="text/javascript" src="/web/assets/lib/jquery/jquery.js"/>
+		<script type="text/javascript" src="/web/assets/lib/bootstrap/js/bootstrap.js"/>
+	</bundle>
+	
+	<bundle id="web.assets_common" name="Web Base Assets" inherit_id="base.test1">
+		<!-- CSS -->
+		<link rel="stylesheet" href="/web/assets/lib/bootstrap/css/bootstrap.css"/>
+		
+		<script type="text/javascript" src="/web/assets/lib/jquery/jquery.js"/>
+		<script type="text/javascript" src="/web/assets/lib/bootstrap/js/bootstrap.js"/>
+	</bundle>
+</data>

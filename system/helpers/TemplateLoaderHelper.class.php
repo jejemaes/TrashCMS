@@ -7,9 +7,14 @@
 namespace system\helpers;
 
 use system\interfaces\iTemplateLoader as iTemplateLoader;
-use system\ir\TrashView;
+use system\core\TrashView;
+use system\core\Registry;
 
 class TemplateLoaderHelper implements iTemplateLoader{
+	
+	public function __construct(){
+		$this->pool = Registry::getInstance();
+	}
 	
 	/**
 	 * Load the template named 'name', and return its code
@@ -17,7 +22,8 @@ class TemplateLoaderHelper implements iTemplateLoader{
 	 * @return code : the code (content) of the template
 	 */
 	public function load_template($name){
-		$tmp = TrashView::apply_inheritance_arch($name);
+		$View = $this->pool['ir.view'];
+		$tmp = $View::apply_inheritance_arch($name);
 		//echo htmlspecialchars($tmp);
 		return $tmp;
 	}

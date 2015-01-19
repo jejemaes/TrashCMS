@@ -4,7 +4,7 @@
  * ObjectNotFound.class.php, created at Jan 10, 2015
  *
  */
-
+namespace system\exceptions;
 
 class ObjectNotFoundException extends Exception{
 	

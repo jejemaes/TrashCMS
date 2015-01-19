@@ -1,0 +1,10 @@
+{
+	"name" : "web",
+	"display_name" : "Web",
+	"menu_items" : [],
+	"installable" : true,
+	"dependencies" : ['base'],
+	"views" : [
+		'view/web_bundle.xml',
+	]
+}

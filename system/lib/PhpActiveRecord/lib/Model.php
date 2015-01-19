@@ -1178,7 +1178,6 @@ class Model
 	 */
 	public static function __callStatic($method, $args)
 	{
-		echo "activeMdoel";
 		$options = static::extract_and_validate_options($args);
 		$create = false;
 
